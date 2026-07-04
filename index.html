@@ -13,3 +13,60 @@
     <h1 class="brand">Find the time you're all free</h1>
     <p class="tagline">Say goodbye to endless chaotic group messages and hello to effortless planning.</p>
 
+    <!-- main homepage-->
+    <div id="main-screen">
+        <div id="my-plans-section" class="hidden">
+            <h2 style="font-family: 'Fraunces', serif; font-size:18px; margin-bottom:14px;">Your Plans</h2>
+            <div class="plans-grid" id="plans-grid"></div>
+        </div>
+        
+        <div class="card" id="create-card">
+            <h2>Start a plan</h2>
+            <p class="sub">Pick the days that could work, then share the code.</p>
+
+            <div class="field">
+                <label for="event-name">What's this for?</label>
+                <input class="input" id="event-name" placeholder="e.g. Evelyn's birthday dinner" maxlength="60">
+            </div>
+
+            <div class="field">
+                <label>Cover image(optional)</label>
+                <div class="cover-upload">
+                    <img class="cover-preview" id="create-cover-preview" alt="">
+                    <button class="btn btn-ghost btn-sm file-btn">Upload<input type="file" id="create-cover-input" accept="image/*"></button>
+                </div> 
+                <!--image/* = allow any image type-->
+            </div>
+
+            <div class="field">
+                <label>Which days could work?</label>
+                <div class="cal-head">
+                    <button clear="cal-nav" id="cal-prev"></button>
+                    <span clear="month" id="cal-month-label"></span>
+                    <button clear="cal-nav" id="cal-next"></button>
+                </div>
+                <div class="cal-grid" id="cal-dow-row"></div>
+                <div class="cal-grid" id="cal-grid" style="margin-top:5px"></div>
+                <div class="selected-count" id="selected-count">No dates selected yet</div>
+                <div class="date-chips" id="date-chips"></div>
+            </div>
+        
+            <div class="error-msg hidden" id="create-error"></div>
+            <button class="btn btn-primary" id="create-btn" style="width:100px">Create plan</button>
+        </div>   
+
+        <div class="divider-word">or</div>
+
+        <div class="card">
+            <h2>Already have a code?</h2>
+            <p class="sub">Enter the code your friend shared with you.</p>
+            <div class="row">
+                <input class="input" id="join-code" placeholder="e.g. 123456" maxlength="6" style="text-transform:uppercase; letter-spacing:0.1em; font-family:'JetBrains Mono',monospace;">
+                <button class="btn btn-ghost" id="join-btn" style="flex:0 0 auto;">Join plan</button>
+            </div>
+            <div class="error-msg hidden" id="join-error"></div>
+        </div>
+    </div>
+
+<!-- EVENT SCREEN -->
+
