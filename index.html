@@ -16,15 +16,19 @@
     <!-- main homepage-->
     <div id="main-screen">
         <div id="my-plans-section" class="hidden">
+            <!-- font Fraunces, if unavailable serif, make it 18, add 14px underneath -->
             <h2 style="font-family: 'Fraunces', serif; font-size:18px; margin-bottom:14px;">Your Plans</h2>
+            <!-- empty, will later add plan cards--> 
             <div class="plans-grid" id="plans-grid"></div>
         </div>
         
         <div class="card" id="create-card">
             <h2>Start a plan</h2>
+            <!-- sub = make text smaller & gray -->
             <p class="sub">Pick the days that could work, then share the code.</p>
 
             <div class="field">
+                <!-- ask user what the event is for, using <label> -->
                 <label for="event-name">What's this for?</label>
                 <input class="input" id="event-name" placeholder="e.g. Evelyn's birthday dinner" maxlength="60">
             </div>
@@ -32,6 +36,7 @@
             <div class="field">
                 <label>Cover image(optional)</label>
                 <div class="cover-upload">
+                    <!-- initially empty img-->
                     <img class="cover-preview" id="create-cover-preview" alt="">
                     <button class="btn btn-ghost btn-sm file-btn">Upload<input type="file" id="create-cover-input" accept="image/*"></button>
                 </div> 
@@ -57,6 +62,7 @@
 
         <div class="divider-word">or</div>
 
+        <!-- join existing plan -->
         <div class="card">
             <h2>Already have a code?</h2>
             <p class="sub">Enter the code your friend shared with you.</p>
@@ -68,5 +74,78 @@
         </div>
     </div>
 
-<!-- EVENT SCREEN -->
+    <!-- EVENT SCREEN -->
+    <div id="screen-event" class="hidden">
+        <div class="card">
+            <img class="cover-banner-hidden" id="ev-cover-banner" alt="">
+            <div class="event-header">
+                <div> 
+                    <h2 id="ev-name" style="font-size:22px; margin:0;"></h2>
+                    <div class="meta-line" id="ev-meta"></div>
+                    <button class="cover-change-link file-btn" id="ev-cover-btn"> Change cover<input type="file" id="ev-cover-input" accept="image/*"></button>
+                </div>
+                <div class="code-badge">
+                    <span id="ev-code"></span>
+                    <button id="btn-copy-code">copy</button>
+                </div>
+            </div>
+            
+            <div id="name-gate">
+                <div class="field" style="max-width:320px; margin-top:14px;"> <label for="my-name">Your name</label>
+                <input class="input" id="my-name" placeholder="So your friends know it's you" maxlength="30">
+                <button class="btn btn-primary" id="btn-set-name">Continue</button>
+            </div>
 
+            <div id="event-body" class="hidden">
+                <div class="tabs">
+                    <button class="tab active" id="tab-mine" data-tab="mine">My availability</button>
+                    <button class="tab" id="tab-group" data-tab="group">Group view</button>
+                </div>
+
+                <div id="panel-mine">
+                    <p class="hint" style="margin-bottom:14px;">Tap a date to mark yourself available, <span id="mine-name-echo" style="font-weight:600;"></span>. Not available for ALL DAY? That's fine! Set the hours below.</p>
+                    <div class="cal-head">
+                        <button class="cal-nav" id="ev-cal-prev"></button>
+                        <span class="month" id="ev-cal-month-label"></span>
+                        <button class="cal-nav" id="ev-cal-next">></button>
+                    </div>
+                    <div class="cal-grid" id="mine-dow-row"></div>
+                    <div class="cal-grid" id="mine-grid" style="margin-top:5px;"></div>
+
+                    <div class="date-list" id="mine-date-list"></div>
+
+                    <div class="save-bar">
+                        <button class="btn btn-primary" id="btn-save">Save my availability </button>
+                        <span class="save-status" id="save-status"></span>
+                    </div>
+                </div>
+
+                <div id="panel-group" class="hidden">
+                    <div class="cal-head">
+                        <button class="cal-nav" id="grp-cal-prev"><</button>
+                        <span class="month" id="grp-cal-month-label"></span>
+                        <button class="cal-nav" id="grp-cal-next">></button>
+                    </div>
+                    <div class="cal-grid" id="grp-dow-row"></div>
+                    <div class="cal-grid" id="grp-grid" style="margin-top:5px;"></div>
+
+                    <div id="detail-panel" class="detail-panel hidden"></div>
+
+                    <div class="legend" id="legend"></div>
+
+                    <div class="best-times">
+                        <h3>Best Times to Meet</h3>
+                        <div id="best-times-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-ghost" id="btn-back-home">Back to your plans</button>
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
