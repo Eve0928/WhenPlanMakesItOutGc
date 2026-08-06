@@ -65,6 +65,19 @@
             return [];
         }
     }
+    async function storageDelete(key, shared){
+        if(window.storage && window.storage.delete){
+            try{ return await window.storage.delete(key, shared); }
+            catch(e){}
+        }
+        try{
+            localStorage.removeItem(storageKey(key, shared));
+            return { key, deleted: true };
+        }catch(e){
+            console.warn('localStorage unavailable', e);
+            return null;
+        }
+    }
     function resizeImageFile(file, maxW){
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -228,10 +241,41 @@
             card.innerHTML = coverHtml + `<div class="plan-card-body">
                 <div class="plan-name">${p.name}</div>
                 <div class="plan-meta">${p.code}</div>
+                <button class="plan-delete-btn" aria-label="Delete plan" title="Delete this plan">×</button>
             </div>`;
             card.addEventListener('click', () => openPlanByCode(p.code));
+            card.querySelector('.plan-delete-btn').addEventListener('click', (e) => {
+                e.stopPropagation();
+                confirmAndDeletePlan(p.code, p.name, e.currentTarget);
+            });
             grid.appendChild(card);
         });
+    }
+    async function deletePlan(code){
+        // Remove the shared plan + everyone's saved availability from Firestore
+        await storageDelete('event:' + code, true);
+        const availKeys = await storageList('avail:' + code + ':', true);
+        for(const key of availKeys){ await storageDelete(key, true); }
+        // Remove it from this browser's own plan list
+        myPlans = myPlans.filter(p => p.code !== code);
+        await saveMyPlans();
+        renderPlansGrid();
+    }
+    function confirmAndDeletePlan(code, name, triggerEl){
+        const ok = confirm(`Delete "${name}"? This removes it — and everyone's saved availability for it — permanently.`);
+        if(!ok) return;
+        if(triggerEl){ triggerEl.disabled = true; triggerEl.textContent = triggerEl.textContent === '×' ? '…' : 'Deleting…'; }
+        deletePlan(code)
+            .then(() => {
+                if(eventCode === code){ $('btn-back-home').click(); }
+            })
+            .catch((e) => {
+                console.error('Delete plan failed', e);
+                alert("Couldn't delete the plan — check the browser console for details, or check your internet connection.");
+            })
+            .finally(() => {
+                if(triggerEl){ triggerEl.disabled = false; }
+            });
     }
     async function openPlanByCode(code){
         const raw = await storageGet('event:' + code, true);
@@ -315,6 +359,10 @@
             const b = $('btn-copy-code'); const old = b.textContent;
             b.textContent = 'copied!'; setTimeout(() => b.textContent = old, 1200);
         });
+    });
+
+    $('btn-delete-plan').addEventListener('click', (e) => {
+        confirmAndDeletePlan(eventCode, eventData.name, e.currentTarget);
     });
 
     $('ev-cover-input').addEventListener('change', async (e) => {
