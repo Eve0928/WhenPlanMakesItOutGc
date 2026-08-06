@@ -1,10 +1,4 @@
-// Connects the app to your Firebase Firestore database.
-// This defines window.storage.get / .set / .list — the same interface
-// script.js already knows how to use, so script.js itself needs no changes.
-// Data saved with shared=true (plan info + everyone's availability) goes to
-// Firestore, so it syncs between everyone using the site.
-// Data saved with shared=false (your personal "my plans" list) intentionally
-// stays on your own browser via localStorage — no need to sync that part.
+
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
